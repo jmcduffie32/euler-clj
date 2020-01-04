@@ -7,6 +7,8 @@
        (filter #(= (rem num %) 0))
        empty?))
 
+(def primes (filter prime? (iterate inc 1)))
+
 (defn get-factors [num]
   (->> (range 2 (Math/sqrt num))
        (filter #(= (rem num %) 0))
