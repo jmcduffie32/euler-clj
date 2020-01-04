@@ -2,6 +2,9 @@
 
 (def fibbonacci (map first (iterate (fn [[a b]] [b (+' a b)]) [1 2])))
 
+(defn pythagorean-triple? [[a b c]]
+  (= (* c c) (+ (* a a) (* b b))))
+
 (defn prime? [num]
   (->> (range 2 (+ 0.5 (Math/sqrt num)))
        (filter #(= (rem num %) 0))
