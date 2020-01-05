@@ -2,6 +2,8 @@
 
 (def fibbonacci (map first (iterate (fn [[a b]] [b (+' a b)]) [1 2])))
 
+(def triangle-nums (map first (iterate (fn [[a b]] [(+ a (inc b)) (inc b)]) [1 1])))
+
 (defn pythagorean-triple? [[a b c]]
   (= (* c c) (+ (* a a) (* b b))))
 
@@ -38,3 +40,5 @@
 
 (defn transpose [m]
   (apply mapv vector m))
+
+(defn collatz [n] (iterate (fn [a] (if (even? a) (/ a 2) (+ 1 (* 3 a)))) n))
