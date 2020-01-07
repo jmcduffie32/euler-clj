@@ -41,4 +41,9 @@
 (defn transpose [m]
   (apply mapv vector m))
 
+(defn factorial
+  ([n] (factorial n 1))
+  ([n prod]
+   (if (= n 1) (*' n prod) (recur (dec n) (*' n prod)))))
+
 (defn collatz [n] (iterate (fn [a] (if (even? a) (/ a 2) (+ 1 (* 3 a)))) n))
