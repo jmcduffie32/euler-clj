@@ -8,9 +8,11 @@
   (= (* c c) (+ (* a a) (* b b))))
 
 (defn prime? [num]
-  (->> (range 2 (+ 0.5 (Math/sqrt num)))
-       (filter #(= (rem num %) 0))
-       empty?))
+  (if (>= 0 num)
+    false
+    (->> (range 2 (+ 0.5 (Math/sqrt num)))
+         (filter #(= (rem num %) 0))
+         empty?)))
 
 (def primes (filter prime? (iterate inc 1)))
 
@@ -75,3 +77,18 @@
   (if (or (= n 1) (= n 0))
     false
     (< n (apply + (get-proper-divisors n)))))
+
+(defn are-relatively-prime? [m n]
+  (empty? (clojure.set/intersection
+           (into #{} (concat [m] (get-factors m)))
+           (into #{} (concat [n] (get-factors n))))))
+
+(defn multiplicative-order [a n]
+  (if ((comp not are-relatively-prime?) a n)
+    -1
+    (loop [result 1
+           k 1]
+      (let [new-result (mod (* result a) n)]
+        (if (= new-result 1)
+          k
+          (recur new-result (inc k)))))))
