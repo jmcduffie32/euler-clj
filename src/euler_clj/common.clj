@@ -15,9 +15,14 @@
 (def primes (filter prime? (iterate inc 1)))
 
 (defn get-factors [num]
-  (->> (range 2 (Math/sqrt num))
-       (filter #(= (rem num %) 0))
-       (mapcat (fn [val] [val (/ num val)]))))
+  (let [root-ceil (Math/ceil (Math/sqrt num))]
+    (->> (range 2 root-ceil)
+         (filter #(= (rem num %) 0))
+         (mapcat (fn [val]
+                   (if (= num (* val val))
+                     [val]
+                     [val (/ num val)])))
+         (concat (if (= root-ceil (Math/sqrt num)) [(int root-ceil)] [])))))
 
 (defn palindrome? [str]
   (= str (clojure.string/join (reverse str))))
@@ -47,3 +52,26 @@
    (if (= n 1) (*' n prod) (recur (dec n) (*' n prod)))))
 
 (defn collatz [n] (iterate (fn [a] (if (even? a) (/ a 2) (+ 1 (* 3 a)))) n))
+
+(defn get-proper-divisors [n]
+  (concat [1] (into [] (get-factors n))))
+
+(defn is-amicable? [a]
+  (let [b (apply + (get-proper-divisors a))
+        b-sum (apply + (get-proper-divisors b))]
+    (and (not= a b)
+         (= a b-sum))))
+
+(defn get-alphabetical-value [character]
+  (- (int character) 64))
+
+(defn is-perfect? [n]
+  (= n (apply + (get-proper-divisors n))))
+
+(defn is-deficient? [n]
+  (> n (apply + (get-proper-divisors n))))
+
+(defn is-abundant? [n]
+  (if (or (= n 1) (= n 0))
+    false
+    (< n (apply + (get-proper-divisors n)))))
