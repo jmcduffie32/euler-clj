@@ -92,3 +92,6 @@
         (if (= new-result 1)
           k
           (recur new-result (inc k)))))))
+
+(defn num->digits [n]
+  (map #(Integer. %) (clojure.string/split (str n) #"")))
