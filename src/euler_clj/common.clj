@@ -51,7 +51,7 @@
 (defn factorial
   ([n] (factorial n 1))
   ([n prod]
-   (if (= n 1) (*' n prod) (recur (dec n) (*' n prod)))))
+   (if (or (= n 1) (= n 0)) (*' 1 prod) (recur (dec n) (*' n prod)))))
 
 (defn collatz [n] (iterate (fn [a] (if (even? a) (/ a 2) (+ 1 (* 3 a)))) n))
 
