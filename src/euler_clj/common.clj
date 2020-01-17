@@ -95,3 +95,10 @@
 
 (defn num->digits [n]
   (map #(Integer. %) (clojure.string/split (str n) #"")))
+
+(defn concatenated-product [n m]
+  (BigInteger. (clojure.string/join (map #(* % n) (range 1 (inc m))))))
+
+
+(defn pandigital-number? [n]
+  (= (sort (str n)) '(\1 \2 \3 \4 \5 \6 \7 \8 \9)))
