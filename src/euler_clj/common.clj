@@ -8,7 +8,7 @@
   (= (* c c) (+ (* a a) (* b b))))
 
 (defn prime? [num]
-  (if (>= 0 num)
+  (if (>= 1 num)
     false
     (->> (range 2 (+ 0.5 (Math/sqrt num)))
          (filter #(= (rem num %) 0))
@@ -27,7 +27,7 @@
          (concat (if (= root-ceil (Math/sqrt num)) [(int root-ceil)] [])))))
 
 (defn palindrome? [str]
-  (= str (clojure.string/join (reverse str))))
+  (= str (clojure.string/reverse str)))
 
 (defn palindrome-num? [num]
   (palindrome? (str num)))
