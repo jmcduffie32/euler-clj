@@ -102,3 +102,7 @@
 
 (defn pandigital-number? [n]
   (= (sort (str n)) '(\1 \2 \3 \4 \5 \6 \7 \8 \9)))
+
+(defn n-digit-pandigital? [n]
+  (let [str-n (str n)]
+    (= (sort str-n) (take (count str-n ) [\1 \2 \3 \4 \5 \6 \7 \8 \9]))))
