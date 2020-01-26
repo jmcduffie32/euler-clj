@@ -1,8 +1,23 @@
-(ns euler-clj.common)
+(ns euler-clj.common
+  (:require [clojure.math.combinatorics :as combo]))
 
 (def fibbonacci (map first (iterate (fn [[a b]] [b (+' a b)]) [1 2])))
 
 (def triangle-nums (map first (iterate (fn [[a b]] [(+ a (inc b)) (inc b)]) [1 1])))
+
+(def pentagon-nums (drop 1
+                         (map first
+                              (iterate
+                               (fn [[a b]]
+                                 [(/ (* b (- (* 3 b) 1)) 2) (inc b)])
+                               [1 1]))))
+
+(def hexagon-nums (drop 1
+                         (map first
+                              (iterate
+                               (fn [[a b]]
+                                 [(* b (- (* 2 b) 1)) (inc b)])
+                               [1 1]))))
 
 (defn pythagorean-triple? [[a b c]]
   (= (* c c) (+ (* a a) (* b b))))
@@ -25,6 +40,9 @@
                      [val]
                      [val (/ num val)])))
          (concat (if (= root-ceil (Math/sqrt num)) [(int root-ceil)] [])))))
+
+(defn get-prime-factors [n]
+  (filter prime? (get-factors n)))
 
 (defn palindrome? [str]
   (= str (clojure.string/reverse str)))
@@ -106,3 +124,21 @@
 (defn n-digit-pandigital? [n]
   (let [str-n (str n)]
     (= (sort str-n) (take (count str-n ) [\1 \2 \3 \4 \5 \6 \7 \8 \9]))))
+
+(defn digit-permutations [n]
+  (->> (str n)
+       (combo/permutations)
+       (filter #(not= (first %) \0))
+       (map #(BigInteger. (clojure.string/join %)))))
+
+(defn triangle-num? [n]
+  (let [result (/ (+ -1 (Math/sqrt (+ 1 (* 8 n)))) 2)]
+    (== (int result) result)))
+
+(defn pentagon-num? [n]
+  (let [result (/ (+ 1 (Math/sqrt (+ 1 (* 24 n)))) 6)]
+    (== (int result) result)))
+
+(defn hexagon-num? [n]
+  (let [result (/ (+ 1 (Math/sqrt (+ 1 (* 8 n)))) 4)]
+    (== (int result) result)))
