@@ -96,13 +96,13 @@
     false
     (< n (apply + (get-proper-divisors n)))))
 
-(defn are-relatively-prime? [m n]
+(defn relatively-prime? [m n]
   (empty? (clojure.set/intersection
            (into #{} (concat [m] (get-factors m)))
            (into #{} (concat [n] (get-factors n))))))
 
 (defn multiplicative-order [a n]
-  (if ((comp not are-relatively-prime?) a n)
+  (if ((comp not relatively-prime?) a n)
     -1
     (loop [result 1
            k 1]
@@ -142,3 +142,11 @@
 (defn hexagon-num? [n]
   (let [result (/ (+ 1 (Math/sqrt (+ 1 (* 8 n)))) 4)]
     (== (int result) result)))
+
+(defn co-prime [n m]
+  ())
+
+(defn totient [n]
+  (->> (range 1 n)
+       (filter #(relatively-prime? n %))
+       count))
